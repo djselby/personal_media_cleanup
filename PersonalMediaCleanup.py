@@ -1,5 +1,7 @@
 import os
 import sys
+import argparse
+
 import hashlib ##used to get file hash value
 import shutil ##used for file copy
 from dateutil.parser import parse
@@ -121,7 +123,7 @@ class MediaCleanup:
                 file_path = os.path.join(root, filename)
                 print(f"\t-- file {filename} (full path: {file_path})")
 
-                if filename.lower().split('.')[-1] in ('jpg', 'jpeg', 'bmp'):
+                if filename.lower().split('.')[-1] in ('jpg', 'jpeg', 'bmp', 'png'):
                     image_cnt += 1
                     print(f"\t Processing image file {filename}")
                     ##Read the file in binary mode and generate the sha256 hash
@@ -214,6 +216,6 @@ if __name__ == '__main__':
     mc = MediaCleanup()
     #mc.source_root_path = 'C:\\Users\\Derek\\Desktop\\duplicate_pictures\\'
     #mc.target_root_path = 'C:\\Users\\Derek\\Desktop\\Cleaned Up Pictures\\'
-    mc.source_root_path = 'C:\\Parents Pictures\\'
-    mc.target_root_path = 'D:\\Cleaned Up Pictures\\'
+    mc.source_root_path = 'E:\\Original_Pictures'
+    mc.target_root_path = 'E:\\Finished_Pictures'
     mc.cleanup()
