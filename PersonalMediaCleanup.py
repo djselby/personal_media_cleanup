@@ -1,12 +1,11 @@
 import os
 import sys
 import argparse
-
 import hashlib ##used to get file hash value
 import shutil ##used for file copy
 from dateutil.parser import parse
-import exifread
 import datetime
+import exifread
 
 class PhotoFile:
     """Class to represent an image file (jpg, png, etc...)"""
@@ -206,16 +205,24 @@ class MediaCleanup:
             self.__create_path_if_needed(other_file.new_path)
             shutil.copy(os.path.join(other_file.file_path, other_file.filename), os.path.join(other_file.new_path, other_file.filename))
 
-
-#walk_dir = 'D:\\Parents Pictures\\'
-#walk_dir = 'C:\\Users\\Derek\\Desktop\\duplicate_pictures\\'
-#new_root_dir = 'C:\\Users\\Derek\\Desktop\\Cleaned Up Pictures\\'
-#new_root_dir = 'D:\\Cleaned Up Pictures\\'
-
+        
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-input', '--input_directory', help='Required: input directory containing your photo/video files', required=True)
+    parser.add_argument('-output', '--output_directory', help='Required: output directory where the sorted files will be written to', required=True)
+    args = parser.parse_args()
+    source_path = args.input_directory
+    output_path = args.output_directory
+
+    if not os.path.isdir(source_path):
+        print('The path specified does not exist')
+        sys.exit()
+
+    if not os.path.isdir(output_path):
+        print(f"Output path {output_path} does not exist. Creating directory.")
+        os.mkdir(output_path)
+        
     mc = MediaCleanup()
-    #mc.source_root_path = 'C:\\Users\\Derek\\Desktop\\duplicate_pictures\\'
-    #mc.target_root_path = 'C:\\Users\\Derek\\Desktop\\Cleaned Up Pictures\\'
-    mc.source_root_path = 'E:\\Original_Pictures'
-    mc.target_root_path = 'E:\\Finished_Pictures'
+    mc.source_root_path = source_path
+    mc.target_root_path = output_path
     mc.cleanup()
